@@ -1,0 +1,55 @@
+{% extends "cgBase.html" %}
+{% block content %}
+<form method='POST' action='' class="fdb-block py-0 fp-active">
+  <div class="container py-5" style="background-image: url(../static/imgs/shapes/6.svg);">
+    <div class="row text-center justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        <h1>Create Meeting</h1>
+        {{ form.csrf_token}}
+      </div>
+    </div>
+    <div class="row-50">
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        <form>
+          <div class="row">
+            <div class="col">
+              <label>Host Name</label>
+              {{form.host(class="form-control",placeholder="Enter Host Name")}}
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <label>Date</label>
+              {{form.date(class="form-control", type="date")}}
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <label>Time</label>
+              {{form.time(class="form-control", type="time")}}
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <label>Zoom Link</label>
+              {{form.link(class="form-control", placeholder="Paste Zoom Link Here")}}
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col text-right">
+              {{form.submit(class="btn btn-primary")}}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row-100"></div>
+  </div>
+</form>
+{% endblock %}

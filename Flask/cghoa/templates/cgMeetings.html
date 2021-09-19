@@ -1,0 +1,165 @@
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+
+<!-- MEETING STYLES -->
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&family=Poppins:wght@600&display=swap');
+
+  * {
+    box-sizing: border-box
+  }
+
+  body {
+    background-color: #d9ecf2;
+    font-family: 'Poppins', sans-serif;
+    color: #666
+  }
+
+  .h2 {
+    color: #444;
+    font-family: 'PT Sans', sans-serif
+  }
+
+  thead {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    color: #666
+  }
+
+  .meetingImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+  }
+
+  .name {
+    display: inline-block
+  }
+
+  .bg-blue {
+    background-color: #EBF5FB;
+    border-radius: 8px
+  }
+
+  .fa-check,
+  .fa-minus {
+    color: blue
+  }
+
+  .bg-blue:hover {
+    background-color: #3e64ff;
+    color: #eee;
+    cursor: pointer
+  }
+
+  .bg-blue:hover .fa-check,
+  .bg-blue:hover .fa-minus {
+    background-color: #3e64ff;
+    color: #eee
+  }
+
+  .table thead th,
+  .table td {
+    border: none
+  }
+
+  .table tbody td:first-child {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px
+  }
+
+  .table tbody td:last-child {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px
+  }
+
+  #spacing-row {
+    height: 10px
+  }
+
+  @media(max-width:575px) {
+    .container {
+      width: 125%;
+      padding: 20px 10px
+    }
+  }
+</style>
+<!-- MEETING STYLES END -->
+{% extends "cgBase.html" %}
+{% block content %}
+<section class="fdb-block py-0 fp-active" data-block-type="contents" data-id="4" draggable="false">
+
+  <div class="container rounded mt-5 bg-white p-md-5">
+    <div class="h2 font-weight-bold">Meetings
+      {% if props.user.is_authenticated %}
+      <button type="button" onclick=window.location.href="{{url_for('newMeeting')}}"
+        class="btn btn-primary btn-sm">Create New Meeting</button>
+      {% endif %}
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr draggable="false">
+            <th scope="col">Host</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Zoom</th>
+          </tr>
+        </thead>
+        <tbody draggable="false">
+          {% if props.meetings|length >= 1 %}
+          {% for meeting in props.meetings %}
+          <tr  draggable="false">
+            <td class="pt-4">
+              <div draggable="false">{{meeting.host}}</div>
+            </td>
+            <td class="pt-4">{{meeting.dateText}}</td>
+            <td class="pt-4">{{meeting.timeText}}</td>
+            <td class="pt-4"><button class="btn btn-primary" onclick='window.location.href="{{meeting.link}}"'>Join
+                Now</button></td>
+                {% if props.user.is_authenticated %}
+                <td class="pt-4">
+                  <button class="btn btn-secondary" style="width:120px;" onclick="window.location.href=`{{url_for('editMeeting', meetingID=meeting.id)}}`">Settings
+                  </button>
+                  <br>
+                  <br>
+                  <button class="btn btn-danger" onclick="window.location.href=`{{url_for('deleteMeeting', meetingID=meeting.id)}}`" style="width:120px;" data-toggle="modal" data-target="#exampleModal2">Delete
+                  </button>
+                </td>
+              <td class="pt-4">
+                {%endif%}
+          </tr>
+          {% if props.meetings|length > 1 %}
+          <tr id="spacing-row">
+            <td></td>
+          </tr>
+          {%endif%}
+          {%endfor%}
+          {% endif %}
+        </tbody>
+      </table>
+      {%if props.meetings|length == 0%}
+      <div class="container text-center" style="font-size: 32px;">There are no scheduled meetings</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<form class="fdb-block fp-active">
+  <div class="container" style="height: 120px;">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 text-center">
+        <h1>Think we should hold a meeting? Let us know!</h1>
+        <p class="mt-5">
+          <a class="btn btn-secondary" href="{{url_for('contactPage')}}">Contact Us</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "cgBase.html" %}
+{% block content %}
+<form method='POST' action='' class="fdb-block py-0 fp-active">
+  <div class="container py-5" style="background-image: url(../static/imgs/shapes/6.svg);">
+    <div class="row text-center justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        <h1>Create Email Blast</h1>
+        {{ form.csrf_token}}
+      </div>
+    </div>
+    <div class="row-50">
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        <form>
+
+          <div class="row mt-4">
+            <div class="col">
+              <label>Subject</label>
+              {{form.subject(class="form-control")}}
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col">
+              <label>Content</label>
+                {{form.content(class="form-control", style="height: 250px")}}
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col text-right">
+              {{form.submit(class="btn btn-primary")}}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row-100"></div>
+  </div>
+</form>
+{% endblock %}
